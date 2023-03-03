@@ -166,7 +166,7 @@ Checking the normality assumption
 ```{r}
 for(i in categorical_varibales_index){
   boxplot((cervical_data)[,i]~Biopsy, ylab = "Biopsy", xlab = colnames(cervical_data)[i], cervical_data)
-
+# hello world
 ## for categorical variable, we draw boxplots to check if each predictor has a relation with the response i.e. the dummy variable is 0 vs the dummy variable is 1. If the two bowplots overlap, there is no statistical evidence of the predictor predicting the response
 ```
 
