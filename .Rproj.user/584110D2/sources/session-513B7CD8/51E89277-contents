@@ -1,0 +1,438 @@
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyr)
+library(tidyverse)
+library(visdat)
+library(ggplot2)
+library(broom)
+library(dtplyr)
+library(gapminder)
+library(car)
+library(leaps)
+library(visdat)
+library(glmnet)
+cervical_data <- read.csv("/Users/eliasroubache/Downloads/risk_factors_cervical_cancer.csv", header= TRUE) ##upload the cervical data
+View(cervical_data) ##visualize the cervical data in a new tab
+dim(cervical_data)
+glimpse(cervical_data)
+## Including Plots
+```{r}
+?colSums
+cervical_data[cervical_data == "?"]<- NA
+##missing values in the datasets are represented by ?. They are replaced by NA, the value R matches for missing values.
+vis_miss(cervical_data)
+## view the proportion of missing values for each predictor and for the whole data.
+colSums(is.na(cervical_data))
+cervical_data[is.na(cervical_data)] <- 0 ##transform the missing values by O
+vis_miss(cervical_data)
+colSums(is.na(cervical_data))
+cervical_data[cervical_data == "?"]<- NA
+##missing values in the datasets are represented by ?. They are replaced by NA, the value R matches for missing values.
+vis_miss(cervical_data)
+## view the proportion of missing values for each predictor and for the whole data.
+colSums(is.na(cervical_data))
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyr)
+library(tidyverse)
+library(visdat)
+library(ggplot2)
+library(broom)
+library(dtplyr)
+library(gapminder)
+library(car)
+library(leaps)
+library(visdat)
+library(glmnet)
+cervical_data <- read.csv("/Users/eliasroubache/Downloads/risk_factors_cervical_cancer.csv", header= TRUE)
+##upload the cervical data
+View(cervical_data)
+##visualize the cervical data in a new tab
+dim(cervical_data)
+##view the number of predictors p and the number of observations n. Here, p=35 and n=858. Search for a technique to output directly the number of predictors
+glimpse(cervical_data)
+##view the types of the different predictors and their first values
+cervical_data[cervical_data == "?"]<- NA
+##missing values in the datasets are represented by ?. They are replaced by NA, the value R matches for missing values.
+vis_miss(cervical_data)
+## view the proportion of missing values for each predictor and for the whole data.
+colSums(is.na(cervical_data))
+glimpse(cervical_data)
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyr)
+library(tidyverse)
+library(visdat)
+library(ggplot2)
+library(broom)
+library(dtplyr)
+library(gapminder)
+library(car)
+library(leaps)
+library(visdat)
+library(glmnet)
+cervical_data <- read.csv("/Users/eliasroubache/Downloads/risk_factors_cervical_cancer.csv", header= TRUE)
+##upload the cervical data
+View(cervical_data)
+##visualize the cervical data in a new tab
+dim(cervical_data)
+##view the number of predictors p and the number of observations n. Here, p=35 and n=858. Search for a technique to output directly the number of predictors
+glimpse(cervical_data)
+##view the types of the different predictors and their first values
+cervical_data[cervical_data == "?"]<- NA
+##missing values in the datasets are represented by ?. They are replaced by NA, the value R matches for missing values.
+vis_miss(cervical_data)
+## view the proportion of missing values for each predictor and for the whole data.
+colSums(is.na(cervical_data))
+## view the number of missing data for each predictors. Search for a method that sees if the missing values are for the same observations. In this case, can we remove them?
+cervical_data[is.na(cervical_data)] <- 0
+## arbitrarly transform the missing values by O. THIS NEEDS JUSTIFICATION.
+vis_miss(cervical_data)
+## check  there is no more missing values.
+glimpse(cervical_data)
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyr)
+library(tidyverse)
+library(visdat)
+library(ggplot2)
+library(broom)
+library(dtplyr)
+library(gapminder)
+library(car)
+library(leaps)
+library(visdat)
+library(glmnet)
+cervical_data <- read.csv("/Users/eliasroubache/Downloads/risk_factors_cervical_cancer.csv", header= TRUE)
+##upload the cervical data
+View(cervical_data)
+##visualize the cervical data in a new tab
+dim(cervical_data)
+##view the number of predictors p and the number of observations n. Here, p=35 and n=858. Search for a technique to output directly the number of predictors
+glimpse(cervical_data)
+##view the types of the different predictors and their first values
+```{r}
+cervical_data[cervical_data == "?"]<- NA
+##missing values in the datasets are represented by ?. They are replaced by NA, the value R matches for missing values.
+vis_miss(cervical_data)
+ocean_proximity_2lev2<-ocean_proximity
+# Loading packages
+library(ggplot2)
+library(tidyverse)
+library(visdat)
+library(ISLR)
+library(leaps)
+library(dplyr)
+read.csv("/Users/eliasroubache/Downloads/housing.csv")
+housing_data<-(read.csv("/Users/eliasroubache/Downloads/housing.csv"))
+housing_data
+# Data has 20,640 observations with 10 variables which are all continuous except for 'ocean_proximity'
+# ocean proximity is a categorical variable with 5 levels: <1H OCEAN, INLAND, ISLAND, NEAR BAY, NEAR OCEAN
+# housing_median_age, median_income, and median_house_value are median ages in years, median incomes in $10,000, and housing price estimates in $USD
+# total_rooms, total_bedrooms, population, and households are the total number of rooms, bedrooms, people, and units of households in each block
+# Changing 'ocean_proximity' variable into factors
+housing_data$ocean_proximity <- as.factor(housing_data$ocean_proximity)
+str(housing_data)
+# Removing missing variables
+vis_miss(housing_data)
+housing_data <- na.omit(housing_data) #20640 obs. to 20433 obs.
+# Summary
+summary(housing_data)
+# The median is less than the mean for total_rooms, total_bedrooms, population, households, and income
+# This suggests that those data are positively skewed
+# The level ISLAND in ocean_proximity has only 5 observations, significantly less than other levels
+# housing_median_age, median_income, and  median_house_value has maximum values at 52.00, 15.00, and 500000 respectively which suggests there may be a cap on the values during the census
+#Observe first 6 observations
+head(housing_data)
+hist_1 =
+ggplot(housing_data)+
+geom_histogram(aes(x=longitude), color="black", alpha=0.5, fill="blue")+
+theme(axis.text.x = element_text(angle = 25, hjust = 1))
+hist_2 =
+ggplot(housing_data)+
+geom_histogram(aes(x=latitude), color="black", alpha=0.5, fill="blue")+
+theme(axis.text.x = element_text(angle = 25, hjust = 1))
+hist_3 =
+ggplot(housing_data)+
+geom_histogram(aes(x=housing_median_age), color="black", alpha=0.5, fill="blue")+
+theme(axis.text.x = element_text(angle = 25, hjust = 1))
+hist_4 =
+ggplot(housing_data)+
+geom_histogram(aes(x=total_rooms), color="black", alpha=0.5, fill="blue")+
+theme(axis.text.x = element_text(angle = 25, hjust = 1))
+hist_5 =
+ggplot(housing_data)+
+geom_histogram(aes(x=total_bedrooms), color="black", alpha=0.5, fill="blue")+
+theme(axis.text.x = element_text(angle = 25, hjust = 1))
+hist_6 =
+ggplot(housing_data)+
+geom_histogram(aes(x=population), color="black", alpha=0.5, fill="blue")+
+theme(axis.text.x = element_text(angle = 25, hjust = 1))
+hist_7 =
+ggplot(housing_data)+
+geom_histogram(aes(x=households), color="black", alpha=0.5, fill="blue")+
+theme(axis.text.x = element_text(angle = 25, hjust = 1))
+hist_8 =
+ggplot(housing_data)+
+geom_histogram(aes(x=median_income), color="black", alpha=0.5, fill="blue")+
+theme(axis.text.x = element_text(angle = 25, hjust = 1))
+hist_9 =
+ggplot(housing_data)+
+geom_histogram(aes(x=median_house_value), color="black", alpha=0.5, fill="blue")+
+theme(axis.text.x = element_text(angle = 25, hjust = 1))
+hist_10 =
+ggplot(housing_data)+
+geom_bar(aes(x=ocean_proximity), color="black", alpha=0.5, fill="blue")+
+theme(axis.text.x = element_text(size=8,angle = 45, hjust = 1))
+# Histograms confirm that all variables, aside from longitude, latitude, and housing_median_age are positively skewed to some extent
+# There is a peak on housing_median_age and median_housing_value on the right end
+# Map of California with house prices
+ggplot(housing_data)+
+geom_point(aes(x=longitude, y=latitude, color=median_house_value, size=population), alpha=0.4)+
+scale_color_gradient(low="gray", high="blue4" )
+ggplot(housing_data)+
+geom_point(aes(x=longitude, y=latitude, color=ocean_proximity), alpha=0.25, size=1)+
+scale_color_manual(values=c("darkblue", "cadetblue", "darkmagenta", "darkgreen", "coral"))
+ggplot(housing_data)+
+geom_histogram(aes(x=median_house_value, fill=ocean_proximity), color="black", alpha=0.5)+
+facet_wrap(~ocean_proximity)+
+theme(axis.text.x = element_text(size=8, angle = 25, hjust = 1))+
+scale_x_continuous(labels = scales::comma)
+ggplot(housing_data)+
+geom_boxplot(aes(x=median_house_value, y=ocean_proximity, fill=ocean_proximity))+
+scale_x_continuous(labels=scales::comma)
+# Most houses with lower values are inland but it is skewed right so there are also expensive houses inland
+cor(housing_data[,c(1,2,3,4,5,6,7,8,9)])[,9]
+cor(housing_data[,c(1,2,3,4,5,6,7,8,9)])
+# Median house value is positively correlated with median income
+# total_rooms, total_bedrooms, population, households are very correlated to each other
+# Observing the distribution of median house prices
+ggplot(housing_data, aes(housing_data$median_house_value))+
+geom_histogram(aes(y=..density..), fill='orange', bins=50)+
+geom_density()
+# We can see a spike in frequency for house prices around $500,000 ***
+housing_data.long = housing_data %>%
+select(housing_median_age, total_bedrooms, total_rooms, population, households, median_income, median_house_value) %>%
+gather(key="predictor", value="value", -median_house_value)
+ggplot(housing_data.long, aes(x=value, y=median_house_value))+
+geom_point(position="jitter", alpha=0.1)+
+geom_smooth(method="lm", se=FALSE)+
+facet_wrap(~predictor, scales="free")
+head(housing_data.long)
+model_full <- lm(median_house_value ~ ., housing_data) #we first calculate the adjusted R^2 of the full model
+summary(model_full)
+#Multiple R-squared:  0.6465,	Adjusted R-squared:  0.6463
+housing_data$ocean_proximity <- str_replace(housing_data$ocean_proximity, "<1H OCEAN", "LESS 1H")
+class(housing_data$ocean_proximity)
+ggplot(housing_data, aes(x=longitude, y=latitude, color=median_house_value, shape=ocean_proximity))+
+geom_point()
+ocean_proximity <- factor(housing_data$ocean_proximity)
+levels(ocean_proximity)
+summary(ocean_proximity)
+ocean_proximity_3lev<-ocean_proximity #store the ocean_proximity data in a new variable so we can keep the original data untouched
+levels(ocean_proximity_3lev)[c(2,4)] <- levels(ocean_proximity_3lev)[c(5)] #merging ISLAND and NEAR BAY in NEAR OCEAN
+summary(ocean_proximity_3lev)#Number of observations: INLAND: 6496 ; NEAR OCEAN:4903 ; LESS 1H: 9034
+ocean_proximity_3lev
+ocean_proximity_3lev <- as.character(ocean_proximity_3lev) #transforming the observations from factor to character
+ocean_proximity_3lev
+housing_data$ocean_proximity <- ocean_proximity_3lev #evaluating the data frame with the new variable
+housing_data$ocean_proximity
+lm.ocean_proximity_3lev <- lm(median_house_value ~ ., housing_data)#performing linear regression with thE new variable
+summary(lm.ocean_proximity_3lev)
+#Multiple R-squared:  0.6458,	Adjusted R-squared:  0.6456
+ocean_proximity_4lev<-ocean_proximity
+levels(ocean_proximity_4lev)[c(2)] <- levels(ocean_proximity_4lev)[c(5)]
+summary(ocean_proximity_4lev)
+ocean_proximity_4lev <- as.character(ocean_proximity_4lev)
+ocean_proximity_4lev
+housing_data$ocean_proximity<-ocean_proximity_4lev
+housing_data$ocean_proximity
+lm.ocean_proximity_4lev <- lm(median_house_value ~ ., housing_data)
+summary(lm.ocean_proximity_4lev)
+#Multiple R-squared:  0.6461,	Adjusted R-squared:  0.6459
+ocean_proximity_2lev<-ocean_proximity
+levels(ocean_proximity_2lev)[c(2, 4, 5)] <- levels(ocean_proximity_2lev)[c(3)]
+summary(ocean_proximity_2lev)
+ocean_proximity_2lev
+ocean_proximity_2lev <- as.character(ocean_proximity_2lev)
+ocean_proximity_2lev
+housing_data$ocean_proximity <- ocean_proximity_2lev
+housing_data$ocean_proximity
+lm.ocean_proximity_2lev <- lm(median_house_value ~ ., housing_data)
+summary(lm.ocean_proximity_2lev)
+#Multiple R-squared:  0.6458,	Adjusted R-squared:  0.6456
+ocean_proximity_2lev2<-ocean_proximity
+levels(ocean_proximity_2lev2)[c(2, 4)] <- levels(ocean_proximity_2lev2)[c(5)]
+levels(ocean_proximity_2lev2)[c(3)] <- levels(ocean_proximity_2lev2)[c(1)]
+summary(ocean_proximity_2lev2)
+summary(cervical_data$STDs.vulvo.perineal.condylomatosis)
+unique(cervical_data)
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyr)
+library(tidyverse)
+library(visdat)
+library(ggplot2)
+library(broom)
+library(dtplyr)
+library(gapminder)
+library(car)
+library(leaps)
+library(visdat)
+library(glmnet)
+cervical_data <- read.csv("/Users/eliasroubache/Downloads/risk_factors_cervical_cancer.csv", header= TRUE)
+##upload the cervical data
+View(cervical_data)
+##visualize the cervical data in a new tab
+dim(cervical_data)
+##view the number of predictors p and the number of observations n. Here, p=35 and n=858. Search for a technique to output directly the number of predictors
+glimpse(cervical_data)
+##view the types of the different predictors and their first values
+cervical_data[cervical_data == "?"]<- NA
+##missing values in the datasets are represented by ?. They are replaced by NA, the value R matches for missing values.
+vis_miss(cervical_data)
+## view the proportion of missing values for each predictor and for the whole data.
+colSums(is.na(cervical_data))
+## view the number of missing data for each predictors. Search for a method that sees if the missing values are for the same observations. In this case, can we remove them? Idea: we can remove the predictors with more than 15% of the data missing.
+cervical_data[is.na(cervical_data)] <- 0
+## arbitrarly transform the missing values by O. THIS NEEDS JUSTIFICATION.
+vis_miss(cervical_data)
+## check  there is no more missing values.
+continuous_variable_index <- c(1,2,3,4,6,7,11,27,28)
+categorical_varibales_index <- c(5,8,9,10,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26, 29,30,31,32,33,34,35)
+## change type of continuous variable to numeric, the type of categorical variable as factors
+unique(cervical_data)
+unique(cervical_data$Smokes)
+unique(cervical_data[23])
+cervical_data[cervical_data == "?"]<- NA
+##missing values in the datasets are represented by ?. They are replaced by NA, the value R matches for missing values.
+vis_miss(cervical_data)
+## view the proportion of missing values for each predictor and for the whole data.
+colSums(is.na(cervical_data))
+## view the number of missing data for each predictors. Search for a method that sees if the missing values are for the same observations. In this case, can we remove them? Idea: we can remove the predictors with more than 15% of the data missing.
+cervical_data[is.na(cervical_data)] <- 0.0
+## arbitrarly transform the missing values by O. THIS NEEDS JUSTIFICATION.
+vis_miss(cervical_data)
+## check  there is no more missing values.
+unique(cervical_data[23])
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyr)
+library(tidyverse)
+library(visdat)
+library(ggplot2)
+library(broom)
+library(dtplyr)
+library(gapminder)
+library(car)
+library(leaps)
+library(visdat)
+library(glmnet)
+cervical_data <- read.csv("/Users/eliasroubache/Downloads/risk_factors_cervical_cancer.csv", header= TRUE)
+##upload the cervical data
+View(cervical_data)
+##visualize the cervical data in a new tab
+dim(cervical_data)
+##view the number of predictors p and the number of observations n. Here, p=35 and n=858. Search for a technique to output directly the number of predictors
+glimpse(cervical_data)
+##view the types of the different predictors and their first values
+cervical_data[cervical_data == "?"]<- NA
+##missing values in the datasets are represented by ?. They are replaced by NA, the value R matches for missing values.
+vis_miss(cervical_data)
+## view the proportion of missing values for each predictor and for the whole data.
+colSums(is.na(cervical_data))
+## view the number of missing data for each predictors. Search for a method that sees if the missing values are for the same observations. In this case, can we remove them? Idea: we can remove the predictors with more than 15% of the data missing.
+cervical_data[is.na(cervical_data)] <- 0.0
+## arbitrarly transform the missing values by O. THIS NEEDS JUSTIFICATION.
+vis_miss(cervical_data)
+## check  there is no more missing values.
+continuous_variable_index <- c(1,2,3,4,6,7,11,27,28)
+categorical_varibales_index <- c(5,8,9,10,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26, 29,30,31,32,33,34,35)
+## change type of continuous variable to numeric, the type of categorical variable as factors
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyr)
+library(tidyverse)
+library(visdat)
+library(ggplot2)
+library(broom)
+library(dtplyr)
+library(gapminder)
+library(car)
+library(leaps)
+library(visdat)
+library(glmnet)
+cervical_data <- read.csv("/Users/eliasroubache/Downloads/risk_factors_cervical_cancer.csv", header= TRUE)
+##upload the cervical data
+View(cervical_data)
+##visualize the cervical data in a new tab
+dim(cervical_data)
+##view the number of predictors p and the number of observations n. Here, p=35 and n=858. Search for a technique to output directly the number of predictors
+glimpse(cervical_data)
+##view the types of the different predictors and their first values
+cervical_data[cervical_data == "?"]<- NA
+##missing values in the datasets are represented by ?. They are replaced by NA, the value R matches for missing values.
+vis_miss(cervical_data)
+for (i in 1:35) {
+unique(cervical_data[i])
+}
+for (i in 1:35) {
+unique(cervical_data[i])
+}
+for (i in 1:35) {
+unique(cervical_data[i])
+}
+for (i in 1:35) {
+unique(cervical_data[i])
+}
+for (i in 1:35){
+ggplot(cervical_data) +
+geom_hist(aes(x =cervical_data[i], main = colnames(cervical_data)[i], xlab = colnames(cervical_data)[i]) +
+labs(title = colnames(cervical_data)[i])
+}
+ggplot(cervical_data) +
+geom_hist(aes(x =cervical_data[2], main = colnames(cervical_data)[2], xlab = colnames(cervical_data)[2]) +
+labs(title = colnames(cervical_data)[2])
+print(ggplot(cervical_data) +
+ggplot(cervical_data) +
+geom_hist(aes(x =cervical_data[2], main = colnames(cervical_data)[2], xlab = colnames(cervical_data)[2]) +
+labs(title = colnames(cervical_data)[2])
+ggplot(cervical_data) +
+geom_hist(aes(x =cervical_data[2]) +
+labs(title = colnames(cervical_data)[2])
+ggplot(cervical_data) +
+geom_hist(aes(x = colnames(cervical_data)[2]) +
+labs(title = colnames(cervical_data)[2])
+?aes
+ggplot(cervical_data) +
+geom_hist(aes(x = colnames(cervical_data[2])) +
+labs(title = colnames(cervical_data[2])
+ggplot(cervical_data) +
+geom_hist(aes(x = colnames(cervical_data[2]))
+colnames(cervical_data[2]
+colnames(cervical_data[2]
+colnames(cervical_data[2]
+colnames(cervical_data[2])
+colnames(cervical_data[2])
+cervical_data[2]
+for(i in categorical_varibales_index){
+hist((cervical_data)[,i]~Biopsy, ylab = "Biopsy", xlab = colnames(cervical_data)[i], cervical_data)
+## we use a for loop to plot the a hist plot of the variables
+for(i in 1:35){
+hist((cervical_data)[,i]~Biopsy, ylab = "Biopsy", xlab = colnames(cervical_data)[i], cervical_data)
+## we use a for loop to plot the a hist plot of the variables
+for(i in 1:35){
+hist((cervical_data)[,i]~Biopsy, ylab = "Biopsy", xlab = colnames(cervical_data)[i], cervical_data)
+}
+for(i in continuous_variable_index){
+hist((cervical_data)[,i]~Biopsy, ylab = "Biopsy", xlab = colnames(cervical_data)[i], cervical_data)
+}
+continuous_variable_index <- c(1,2,3,4,6,7,11,27,28)
+categorical_varibales_index <- c(5,8,9,10,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26, 29,30,31,32,33,34,35)
+cervical_data[continuous_variable_index] <- sapply(cervical_data[continuous_variable_index],as.numeric)
+## change type of continuous variable to numeric, the type of categorical variable as factors. INDEXTO BE CHANGED
+for(i in continuous_variable_index){
+hist((cervical_data)[,i]~Biopsy, ylab = "Biopsy", xlab = colnames(cervical_data)[i], cervical_data)
+}
+continuous_variable_index <- c(1,2,3,4,6,7,11,27,28)
+categorical_varibales_index <- c(5,8,9,10,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26, 29,30,31,32,33,34,35)
+cervical_data[continuous_variable_index] <- sapply(cervical_data[continuous_variable_index],as.numeric)
+glimplse(cervical_data)
+continuous_variable_index <- c(1,2,3,4,6,7,11,27,28)
+categorical_varibales_index <- c(5,8,9,10,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26, 29,30,31,32,33,34,35)
+cervical_data[continuous_variable_index] <- sapply(cervical_data[continuous_variable_index],as.numeric)
+glimpse(cervical_data)
+## change type of continuous variable to numeric, the type of categorical variable as factors. INDEXTO BE CHANGED
