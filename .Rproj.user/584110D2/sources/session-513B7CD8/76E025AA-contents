@@ -47,6 +47,7 @@ View(cervical_data)
 ##visualize the cervical data in a new tab 
 dim(cervical_data) 
 ##view the number of predictors p and the number of observations n. Here, p=35 and n=858. Search for a technique to output directly the number of predictors
+# hello
 glimpse(cervical_data)
 ##view the types of the different predictors and their first values
 ```
