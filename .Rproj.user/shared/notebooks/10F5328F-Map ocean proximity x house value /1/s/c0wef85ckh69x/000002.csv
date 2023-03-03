@@ -1,0 +1,5 @@
+"0","```r
+model_8= lm(log(median_house_value) ~ longitude + latitude + housing_median_age + log(total_rooms) + sqrt(total_bedrooms) + population + households + sqrt(median_income) + as.factor(ocean_proximity), data=housing_data)
+summary(model_8)
+# Multiple R-squared:  0.6875,	Adjusted R-squared:  0.6873 
+```"

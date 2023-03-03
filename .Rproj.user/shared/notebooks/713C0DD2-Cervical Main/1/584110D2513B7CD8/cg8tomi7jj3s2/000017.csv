@@ -1,0 +1,3 @@
+"0","cervical_data[cervical_data == ""?""]<- NA "
+"0","##missing values in the datasets are represented by ?. They are replaced by NA, the value R matches for missing values. "
+"0","vis_miss(cervical_data)"

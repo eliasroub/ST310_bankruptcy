@@ -1,0 +1,6 @@
+"0","housing_data$ocean_proximity <- str_replace(housing_data$ocean_proximity, ""<1H OCEAN"", ""LESS 1H"")"
+"0","class(housing_data$ocean_proximity)"
+"1","[1]"
+"1"," ""character"""
+"1","
+"

@@ -1,0 +1,9 @@
+"0","```r
+rss_min4<-which.min(reg4.summary$rss)
+bic_min4<-which.min(reg4.summary$bic)
+adjr2_max4<-which.max(reg4.summary$adjr2)
+cp_min4<-which.min(reg4.summary$cp)
+stats_vect4<-c(adjr2_max4, rss_min4, bic_min4, cp_min4
+              )
+stats_vect4
+```"

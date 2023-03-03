@@ -1,0 +1,4 @@
+"0","```r
+housing_data$ocean_proximity <- ocean_proximity
+housing_data$ocean_proximity
+```"

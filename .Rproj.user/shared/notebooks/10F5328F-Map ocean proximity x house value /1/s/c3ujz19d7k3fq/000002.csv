@@ -1,0 +1,4 @@
+"0","```r
+hist(housing_data$median_house_value, breaks=100)
+hist(log(housing_data$median_house_value), breaks=100)
+```"

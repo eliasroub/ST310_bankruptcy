@@ -1,0 +1,8 @@
+"0","```r
+rss_min2 = which.min(reg2.summary$rss)
+adjr2_max2 = which.max(reg2.summary$adjr2)
+bic_min2 = which.min(reg2.summary$bic)
+cp_min2 = which.min(reg2.summary$cp)
+stats_vect2 = c(adjr2_max2, rss_min2, bic_min2, cp_min2)
+stats_vect2
+```"

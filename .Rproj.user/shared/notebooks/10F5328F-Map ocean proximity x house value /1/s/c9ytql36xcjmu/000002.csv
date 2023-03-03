@@ -1,0 +1,6 @@
+"0","```r
+# Observing the categorical variable \"ocean_proximity\"
+summary(housing_data$ocean_proximity) 
+# \"ISLAND\" only has 5 observations, we can merge it with \"NEAR OCEAN\"
+levels(housing_data$ocean_proximity)[levels(housing_data$ocean_proximity)==\"NEAR BAY\"] <- \"NEAR OCEAN\"
+```"

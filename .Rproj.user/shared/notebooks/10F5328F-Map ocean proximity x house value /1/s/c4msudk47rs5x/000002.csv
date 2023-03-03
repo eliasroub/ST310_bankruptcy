@@ -1,0 +1,12 @@
+"0","```r
+
+# best subset selection 
+
+candidate_4 = regsubsets(median_house_value ~ longitude + latitude + housing_median_age + total_rooms + total_bedrooms + population + households + median_income + as.factor(ocean_proximity), data=housing_data, nvmax=12)
+reg4.summary<-summary(candidate_4)
+par(mfrow=c(2,2))
+plot(reg4.summary$rss, xlab=\"Number of predictors\", ylab=\"RSS\", type = \"o\")
+plot(reg4.summary$adjr2, xlab=\"Number of predictors\", ylab=\"Adjusted R-squared\", type = \"o\")
+plot(reg4.summary$bic, xlab=\"Number of predictors\", ylab=\"BIC\", type = \"o\")
+plot(reg4.summary$cp, xlab=\"Number of predictors\", ylab=\"Cp\", type = \"o\")
+```"

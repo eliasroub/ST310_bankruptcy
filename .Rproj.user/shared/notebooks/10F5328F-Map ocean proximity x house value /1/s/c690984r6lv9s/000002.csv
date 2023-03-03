@@ -1,0 +1,5 @@
+"0","```r
+# Checking model assumptions
+par(mfrow=c(1,3))
+plot(baseline_model, which=c(1,2,4))
+```"

@@ -1,0 +1,7 @@
+"0","```r
+cor(log(housing_data$median_house_value), housing_data$population)
+cor(log(housing_data$median_house_value), sqrt(housing_data$population))
+cor(log(housing_data$median_house_value), exp(housing_data$population))
+cor(log(housing_data$median_house_value), log(housing_data$population)) # Highest correlation
+cor(log(housing_data$median_house_value), housing_data$population^2)
+```"

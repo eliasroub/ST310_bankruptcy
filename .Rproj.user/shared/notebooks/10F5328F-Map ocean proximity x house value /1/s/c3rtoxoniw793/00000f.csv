@@ -1,0 +1,4 @@
+"0","# Map of California with house prices"
+"0","ggplot(housing_data)+"
+"0","  geom_point(aes(x=longitude, y=latitude, color=median_house_value, size=population), alpha=0.4)+"
+"0","  scale_color_gradient(low=""gray"", high=""blue4"" )"

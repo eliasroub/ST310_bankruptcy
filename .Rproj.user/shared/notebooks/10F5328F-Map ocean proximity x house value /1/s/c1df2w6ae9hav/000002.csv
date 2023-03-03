@@ -1,0 +1,4 @@
+"0","```r
+lm.ocean_proximity <- lm(median_house_value ~ ocean_proximity, data=housing_data)
+summary(lm.ocean_proximity)
+```"

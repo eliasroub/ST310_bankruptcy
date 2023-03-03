@@ -1,0 +1,5 @@
+"0","ggplot(housing_data)+"
+"0","  geom_histogram(aes(x=median_house_value, fill=ocean_proximity), color=""black"", alpha=0.5)+"
+"0","  facet_wrap(~ocean_proximity)+"
+"0","  theme(axis.text.x = element_text(size=8, angle = 25, hjust = 1))+"
+"0","  scale_x_continuous(labels = scales::comma)"

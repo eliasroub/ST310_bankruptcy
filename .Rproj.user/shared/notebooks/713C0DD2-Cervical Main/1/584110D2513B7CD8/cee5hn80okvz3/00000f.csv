@@ -1,0 +1,5 @@
+"0","## we see there are non numeric values in the dataset, only integers and characters. "
+"0",""
+"0","for (i in 1:35) {"
+"0","print(unique(cervical_data[i]))"
+"0","}"

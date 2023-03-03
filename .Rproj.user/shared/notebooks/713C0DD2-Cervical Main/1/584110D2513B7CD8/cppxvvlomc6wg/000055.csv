@@ -1,0 +1,4 @@
+"0",""
+"0","## plot the frequency of each variable. Mark the mean and the median to assess the skewness. "
+"0","## complete the hist plots by boxplots for each variable. Good way to see outliers and skewness"
+"0","## try to use ggplot package with indexing to benefit from the benefits of ggplot such as density or frequoply for the moment."

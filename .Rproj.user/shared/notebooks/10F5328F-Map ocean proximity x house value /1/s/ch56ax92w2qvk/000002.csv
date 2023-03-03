@@ -1,0 +1,13 @@
+"0","```r
+
+# forward selection
+
+candidate_3 <- regsubsets(median_house_value ~ longitude + latitude + housing_median_age + total_rooms + total_bedrooms + population + households + median_income + as.factor(ocean_proximity), data=housing_data, nvmax=12, method = \"forward\")
+reg3.summary <- summary(candidate_3)
+par(mfrow=c(2,2))
+plot(reg3.summary$rss, xlab=\"Number of predictors\", ylab=\"RSS\", type = \"o\")
+plot(reg3.summary$adjr2, xlab=\"Number of predictors\", ylab=\"Adjusted R-squared\", type = \"o\")
+plot(reg3.summary$bic, xlab=\"Number of predictors\", ylab=\"BIC\", type = \"o\")
+plot(reg3.summary$cp, xlab=\"Number of predictors\", ylab=\"Cp\", type = \"o\")
+
+```"

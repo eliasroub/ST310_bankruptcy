@@ -1,0 +1,5 @@
+"0","```r
+baseline_model = lm(median_house_value~.,data=housing_data)
+summary(baseline_model)
+anova(baseline_model)
+```"

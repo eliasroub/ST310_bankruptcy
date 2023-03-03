@@ -1,0 +1,24 @@
+"0","```r
+
+## test MSE for the data using validation set
+set.seed(23)
+train<-sample(c(TRUE, FALSE), nrow(housing_data), replace = TRUE)
+test<-(!train) ##splitting the values into a training and a test set
+
+reg.best_train<-regsubsets(median_house_value ~ longitude + latitude + housing_median_age + total_rooms + total_bedrooms + population + households + median_income + as.factor(ocean_proximity), data=housing_data[train,], nvmax=12) #fitting the best subset selection for the training data
+
+test.mat<-model.matrix(median_house_value ~ longitude + latitude + housing_median_age + total_rooms + total_bedrooms + population + households + median_income + as.factor(ocean_proximity), data=housing_data[test,]) #creating a matrix with the variable values of the test set
+test.mat 
+
+#we compute the number of coefficient for which the model has the lower test MSE 
+
+model_testerror <- rep(NA, 12)
+for (i in 1:12) {
+  coefi <- coef(reg.best_train, id=i) #we store the coefficient of the training data of model i
+  pred <- test.mat[, names(coefi)]%*%coefi #we predict the output on the test data using the 
+  model_testerror[i]<- mean((housing_data$median_house_value[test]-pred)^2) #we compute the test MSE for model with i coefficient
+}
+
+model_testerror
+which.min(model_testerror)
+```"

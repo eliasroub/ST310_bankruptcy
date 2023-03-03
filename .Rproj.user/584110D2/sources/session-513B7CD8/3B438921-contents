@@ -1,0 +1,184 @@
+---
+title: "Cervical Cancer Main"
+output: html_document
+date: "2023-03-01"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+## Including Plots
+
+
+```{r}
+library(tidyr)
+library(tidyverse)
+library(visdat)
+library(ggplot2)
+library(broom)
+library(dtplyr)
+library(gapminder)
+library(car)
+library(leaps)
+library(visdat)
+library(glmnet)
+library(gridExtra)
+```
+
+The response variable is "Biopsy"
+
+
+EDA
+
+Data loading and dealing with missing values, outliers
+
+
+```{r}
+cervical_data <- read.csv("/Users/eliasroubache/Downloads/risk_factors_cervical_cancer.csv", header= TRUE) 
+##upload the cervical data 
+View(cervical_data) 
+##visualize the cervical data in a new tab 
+dim(cervical_data) 
+##view the number of predictors p and the number of observations n. Here, p=35 and n=858. Search for a technique to output directly the number of predictors
+glimpse(cervical_data)
+##view the types of the different predictors and their first values
+```
+
+```{r}
+cervical_data[cervical_data == "?"]<- NA 
+##missing values in the datasets are represented by ?. They are replaced by NA, the value R matches for missing values. 
+vis_miss(cervical_data)
+## view the proportion of missing values for each predictor and for the whole data. 
+colSums(is.na(cervical_data))
+## view the number of missing data for each predictors. Search for a method that sees if the missing values are for the same observations. In this case, can we remove them? Idea: we can remove the predictors with more than 15% of the data missing.
+cervical_data[is.na(cervical_data)] <- 0.0 
+## arbitrarly transform the missing values by O. THIS NEEDS JUSTIFICATION.
+vis_miss(cervical_data)
+## check there is no more missing values. 
+```
+```{r}
+## to check if true
+cor(cervical_data$Hinselmann, cervical_data$Biopsy)
+cor(cervical_data$Schiller, cervical_data$Biopsy)
+cor(cervical_data$Citology, cervical_data$Biopsy)
+## remove Hinselman, Schiller, and Citology as they are other test. Test relation 
+```
+
+
+
+Univariate analysis 
+
+1. Checking the types (categorical or continuous) of each predictor
+2. Checking the count for each predictor
+
+```{r}
+## we see there are non numeric values in the dataset, only integers and characters. 
+
+for (i in 1:35) {
+print(unique(cervical_data[i]))
+}
+## to do. Look at the difference values taken by the predictors to spot binary and categorical predictors. If there are 2 values, they are binary. All predictors that measures time are considered continuous (as time is infinite and can be split). Same argument for number of partners (it can be infinite). If the number of unique values is under 10 for other predictors, we say it is categorical. Between 10 and 20, gather in bins to create categorical. Otherwise, it is considered to be continuous.  
+## Binary: smokes, hormonal contraceptive, IUD, STDs, STDs.condylomatosis, STDs.cervical.condylomatosis, STDs.vaginal.condylomatosis, STDs.vulvo.perineal.condylomatosis, STDs.syphilis, STDs.pelvic.inflammatory.disease, STDs.genital.herpes, STDs.molluscum.contagiosum, STDs.AIDS, STDs.HIV, STDs.Hepatitis.B, STDs.HPV, Dx.Cancer
+## categorical: number of sexual partners (gather in bins), Number of pregnancies(gather in bins), STDs number, first.sexual.intercourse (gather in bins),STDs..Time.since.first.diagnosis (in bins), STDs..Time.since.last.diagnosis (in bins). For each, set 4 bins with quantiles.
+## continuous: Age, smokes.years, smokes.packs.year, hormonal.contraceptive.years, IUD.years, 
+```
+
+```{r}
+continuous_variable_index <- c(1,6,7,9,11)
+## we create a vector containing the column indices of continous predictors. 
+binary_varibales_index <- c(2,3,4,5,8,10,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35)
+## we create a vector containing the column indices of binary predictors. TO BE CHANGED 
+categorical_varibales_index
+## we create a vector containing the
+for (i in continuous_variable_index){
+cervical_data[,i] <- as.numeric(cervical_data[,i])  
+}
+for (i in binary_varibales_index){
+  cervical_data[,i] <- as.factor(cervical_data[,i])
+}
+glimpse(cervical_data)
+## change type of continuous variable to numeric, the type of categorical variable as factors.
+## look up  the number and the levels of the categorical predictors using nlevels() and levels()
+```
+
+```{r}
+names_vec <- names(cervical_data)
+for (i in continuous_variable_index){
+  p = ggplot(cervical_data, aes_q(x = names_vec[i])) + 
+    geom_histogram()
+  p
+}
+
+freq_age_plot = ggplot(cervical_data, aes(x= Age)) + 
+  geom_histogram(binwidth = 1)
+
+freq_smokes.year_plot = ggplot(cervical_data, aes(x= Smokes..years.)) + 
+  geom_histogram(binwidth = 0.1)
+
+freq_smokes.packs.year_plot = ggplot(cervical_data, aes(x= Smokes..packs.year.)) + 
+  geom_histogram(binwidth = 0.1)
+
+freq_hormonal.contraceptive_plot = ggplot(cervical_data, aes(x = Hormonal.Contraceptives..years.)) + 
+  geom_histogram(binwidth = 0.5)
+
+freq_iud.years_plot = ggplot(cervical_data, aes(x =  IUD..years.)) + 
+  geom_histogram(binwidth = 1)
+
+grid.arrange(freq_age_plot, freq_hormonal.contraceptive_plot, freq_smokes.packs.year_plot, freq_smokes.year_plot, freq_iud.years_plot, ncol = 2)
+
+## plot the frequency of each variable. Mark the mean and the median to assess the skewness. 
+## complete the hist plots by boxplots for each variable. Good way to see outliers and skewness
+## try to use ggplot package with indexing to benefit from the benefits of ggplot such as density or frequoply for the moment.
+## remove values in 0 for all plots except age 
+```
+
+
+
+
+Bivariate analysis
+
+Checking the linearity assumption
+
+```{r}
+
+hist(cervical_data[,11])
+for(i in continuous_variable_index){
+  hist((cervical_data)[,i]~Biopsy, ylab = "Biopsy", xlab = colnames(cervical_data)[i], cervical_data)
+}
+## we use a for loop to plot a point plot of each continous predictor against the response. We then plot a line that best fit the data and check for linearity. Try for order polynomials. Try to use ggplot. 
+```
+
+
+Checking the normality assumption
+
+```{r}
+## plot a QQ-plot. But seems to be done later because we need to build the model first and have predictions to test against the real values. 
+## this one is made to see if normality of the errors exists. 
+```
+
+```{r}
+for(i in categorical_varibales_index){
+  boxplot((cervical_data)[,i]~Biopsy, ylab = "Biopsy", xlab = colnames(cervical_data)[i], cervical_data)
+
+## for categorical variable, we draw boxplots to check if each predictor has a relation with the response i.e. the dummy variable is 0 vs the dummy variable is 1. If the two bowplots overlap, there is no statistical evidence of the predictor predicting the response
+```
+
+Building the model 
+
+```{r}
+##Here, we plot the 
+```
+
+
+## plot the residual plot with each continuous predictors to see if the linearity assumption is satisfied. Otherwise, check for non-linear methods. 
+
+```{r}
+model_1 <- lm(Biopsy~., cervical_data)
+```

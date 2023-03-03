@@ -1,0 +1,8 @@
+"0","# We can see a spike in frequency for house prices around $500,000 ***"
+"0","housing_data.long = housing_data %>%"
+"0","  select(housing_median_age, total_bedrooms, total_rooms, population, households, median_income, median_house_value) %>%"
+"0","  gather(key=""predictor"", value=""value"", -median_house_value)"
+"0","ggplot(housing_data.long, aes(x=value, y=median_house_value))+"
+"0","  geom_point(position=""jitter"", alpha=0.1)+"
+"0","  geom_smooth(method=""lm"", se=FALSE)+"
+"0","  facet_wrap(~predictor, scales=""free"")"

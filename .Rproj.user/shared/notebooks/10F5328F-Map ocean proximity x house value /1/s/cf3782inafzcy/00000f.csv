@@ -1,0 +1,4 @@
+"0","# Observing the distribution of median house prices"
+"0","ggplot(housing_data, aes(housing_data$median_house_value))+"
+"0","  geom_histogram(aes(y=..density..), fill='orange', bins=50)+"
+"0","  geom_density()"

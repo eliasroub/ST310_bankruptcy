@@ -1,0 +1,3 @@
+"0","ggplot(housing_data)+"
+"0","  geom_boxplot(aes(x=median_house_value, y=ocean_proximity, fill=ocean_proximity))+"
+"0","  scale_x_continuous(labels=scales::comma)"

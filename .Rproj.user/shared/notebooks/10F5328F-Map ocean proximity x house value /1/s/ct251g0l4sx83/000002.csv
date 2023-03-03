@@ -1,0 +1,6 @@
+"0","```r
+ggplot(housing_data)+
+  geom_boxplot(aes(x=median_house_value, y=ocean_proximity, fill=ocean_proximity))+
+  scale_x_continuous(labels=scales::comma)
+# Most houses with lower values are inland but it is skewed right so there are also expensive houses inland
+```"
